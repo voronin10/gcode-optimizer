@@ -79,7 +79,7 @@ r.onload = function(e) {
 		nl[c] = nl[c].toLowerCase();
 
 		// check if this line is a G0 command
-		if (nl[c].substr(0,3) == 'g0 ') {
+		if (nl[c].substr(0,4) == 'g00 ') {
 
 			console.log('found g0');
 
@@ -94,7 +94,7 @@ r.onload = function(e) {
 				if (y === false && allG0.length > 0) {
 					// loop through allG0[-1].followingLines to find the most recent G0 or G1 with a y coordinate
 					for (var h=0; h<allG0[-1].followingLines.length; h++) {
-						if ((allG0[-1].followingLines[h].substr(0,3) == 'g0 ' || allG0[-1].followingLines[h].substr(0,3) == 'g1 ') && allG0[-1].followingLines[h].match(/ y/)) {
+						if ((allG0[-1].followingLines[h].substr(0,4) == 'g00 ' || allG0[-1].followingLines[h].substr(0,4) == 'g01 ') && allG0[-1].followingLines[h].match(/ y/)) {
 							// set this y coordinate as y
 							y = getXY(allG0[-1].followingLines[h])[1];
 						}
@@ -102,7 +102,7 @@ r.onload = function(e) {
 				} else if (x === false && allG0.length > 0) {
 					// loop through allG0[-1].followingLines to find the most recent G0 or G1 with a x coordinate
 					for (var h=0; h<allG0[-1].followingLines.length; h++) {
-						if ((allG0[-1].followingLines[h].substr(0,3) == 'g0 ' || allG0[-1].followingLines[h].substr(0,3) == 'g1 ') && allG0[-1].followingLines[h].match(/ x/)) {
+						if ((allG0[-1].followingLines[h].substr(0,4) == 'g00 ' || allG0[-1].followingLines[h].substr(0,4) == 'g01 ') && allG0[-1].followingLines[h].match(/ x/)) {
 							// set this x coordinate as x
 							x = getXY(allG0[-1].followingLines[h])[0];
 						}
@@ -149,8 +149,8 @@ r.onload = function(e) {
 	// we also need to check if the commands here are not G0, G1, G2, G3, or G4
 	// because in this case they should be left at the end of the file, not put into the parent G0 block
 	for (var mm=0; mm<notG0.length; mm++) {
-		var sb = notG0[mm].substr(0,3);
-		if (sb == 'g0 ' || sb == 'g1 ' || sb == 'g2 ' || sb == 'g3 ' || sb == 'g4 ') {
+		var sb = notG0[mm].substr(0,4);
+		if (sb == 'g00 ' || sb == 'g01 ' || sb == 'g02 ' || sb == 'g03 ' || sb == 'g04 ') {
 			// this should be added to the parent G0 block
 			allG0[allG0.length-1].followingLines.push(notG0[mm]);
 		} else {
